@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+ var Client = require('ftp');
 
-var http = require('http');
-http.createServer(function(req, res) {
-    res.writeHead(200, {
-        'Content-Type': 'text/plain; charset=UTF-8'
+  var c = new Client();
+  c.on('ready', function() {
+    c.list(function(err, list) {
+      if (err) throw err;
+      console.dir(list);
+      c.end();
     });
-    
-    res.end('Hello from node-ftp-listing.\n');
-    
-}).listen(9080, "");
+  });
+  // connect to localhost:21 as anonymous
+  c.connect();

@@ -1,6 +1,3 @@
-node-ftp-listing
-==============
-
-This is node-ftp-listing.
-
-Listowanie plików na ftp.
+Node FTP Listing (node-ftp-listing)
+===================================
+Krótki skrypt sprawdzający działanie modułu FTP.

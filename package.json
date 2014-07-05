@@ -13,9 +13,12 @@
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/YOUR_LOGIN/node-ftp-listing.git"
+        "url": "git://github.com/dziuba/node-ftp-listing.git"
     },
     "bugs": {
-        "url": "http://github.com/YOUR_LOGIN/node-ftp-listing/issues"
+        "url": "http://github.com/dziuba/node-ftp-listing/issues"
+    },
+    "dependencies" : {
+        "ftp"   :  "*"
     }
 }
