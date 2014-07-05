@@ -1,0 +1,21 @@
+{
+    "name": "node-ftp-listing",
+    "description": "Listowanie plików na ftp.",
+    "version": "0.0.1",
+    "main": "./node-ftp-listing.js",
+    "author": {
+        "name": "dziuba",
+        "email": "dziuba@agmk.net"
+    },
+    "keywords": [],
+    "licenses": {
+        "type": "none"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/YOUR_LOGIN/node-ftp-listing.git"
+    },
+    "bugs": {
+        "url": "http://github.com/YOUR_LOGIN/node-ftp-listing/issues"
+    }
+}
