@@ -9,9 +9,13 @@
   c.on('ready', function() {
     c.list(function(err, list) {
       if (err) throw err;
-      console.dir(list);
+      //console.dir(list);
+      //console.log(list[0].name);
+      list.forEach(function(el){
+         console.log(el.name); 
+      });
       c.end();
     });
   });
   // connect to localhost:21 as anonymous
-  c.connect();
+  c.connect({host: 'ftp.rockerspro.pl', user: 'dziuba', password: 'giwoo9du'});
