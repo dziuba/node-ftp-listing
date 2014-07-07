@@ -18,7 +18,7 @@
     });
   });
   // connect to localhost:21 as anonymous
-  c.connect({host: 'ftp.rockerspro.pl', user: 'dziuba', password: 'giwoo9du'});
+  c.connect({host: '', user: '', password: ''});
 */
 
 // Clear console function
@@ -35,36 +35,84 @@ var fs=require("fs");
 var csvFileName="./sm.csv";
 var csvObj;
 
-clearConsole();
+//clearConsole();
 
 fs.readFile(csvFileName, 'utf8', function (err, data) {
     if (err) throw err;
-    
-  
-    
+
     var lines = data.split('\r\n');
-    var row = null;
     var csvArray = [];
     var i = 0;
+    
+    // Rozszyfruj CSV
     lines.forEach(function(el){
-        row = el.split(';');
+        var row = el.split(';');
+        var name = row[0].split(' ^^^ ');
         csvObj = {
-            name: row[0]//,
-            //year: row[1],
-            //month: row[2],
-            //day: row[3],
-           // mail: row[4]
+            artist: name[0],
+            title: name[1],
+            ean1: row[1],
+            price: row[2],
+            quantity: row[3],
+            ean2: row[4],
+            vat: row[5],
+            carrier: row[6],
+            nieWiemCoTo: row[7],
+            producer: row[8],
+            year: row[9],
+            code: row[10],
+            genere: row[11],
+            notes: row[12],
+            quantityPrice: row[13]
         } 
-        /*csvObj['year'] = row[1]; 
-        csvObj['month'] = row[2]; 
-        csvObj['day'] = row[3]; 
-        csvObj['mail'] = row[4];*/
+
         csvArray[i] = csvObj;
         i++;
       });
       
-      console.log(csvArray);
+    // Policz artystów, nośniki   
+    var artistList = [];
+    var carrierList = [];
+    var searchFor = function(list, query){
+        var found = false;
+        list.forEach(function(el){
+           if(el == query){
+               found = true;
+           } 
+        });
+        
+        return found;
+    };
+    var whereEqual = function(list, query, position){
+        var found = false;
+        list.forEach(function(el){
+           if(el == query){
+               found = true;
+           } 
+        });
+        
+        return found;
+    };
+    csvArray.forEach(function(el){
+       if(!searchFor(artistList, el.artist)) {
+           artistList.push(el.artist);
+       }
+       if(!searchFor(carrierList, el.carrier)) {
+           carrierList.push(el.carrier);
+       }
+    });
+    
+ 
+    
+    console.log("\nIlość artystów: " + artistList.length);  
+    console.log("\nIlość produktów: " + csvArray.length);
+    console.log("\nIlość nośników: " + carrierList.length + '\nNośniki: \n');
+    //console.log(carrierList);
+    
+      
+    //console.log(csvArray[15000]);
 
     
 
 });
+
