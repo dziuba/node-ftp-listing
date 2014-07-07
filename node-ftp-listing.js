@@ -23,53 +23,48 @@
 
 // Clear console function
 
-var cConsole = function(){
+var clearConsole = function(){
     var lines = process.stdout.getWindowSize()[1];
     for(var i = 0; i < lines; i++) {
         console.log('\r\n');
     }
 };
 
-
-
-// CSV Listing/*
-
-/*
-var Converter=require("csvtojson").core.Converter;
 var fs=require("fs");
 
-var csvFileName="./test.csv";
-var fileStream=fs.createReadStream(csvFileName);
-//new converter instance
-var param={delimiter: ';'};
-var csvConverter=new Converter(param);
+var csvFileName="./sm.csv";
+var csvObj;
 
-//end_parsed will be emitted once parsing finished
-csvConverter.on("end_parsed",function(jsonObj){
-   
-    cConsole();
-    
-   console.log(jsonObj); //here is your result json object
-   console.log('-------------------------\n-------------------------\n');
-   console.log(JSON.stringify(jsonObj));
-   //var obj = JSON.parse(jsonObj);
-   console.log('\n\n\n');
-});
-
-//read from file
-fileStream.pipe(csvConverter);
-
-*/
-var fs=require("fs");
-var parse = require('csv');
-
-var csvFileName="./test.csv";
+clearConsole();
 
 fs.readFile(csvFileName, 'utf8', function (err, data) {
-  if (err) throw err;
-  console.log(data);
-  console.log('-------------------------\n-------------------------\n');
-  parse(data, {delimiter: ';'}, function(err, output){
-      console.log(output);
-});
+    if (err) throw err;
+    
+  
+    
+    var lines = data.split('\r\n');
+    var row = null;
+    var csvArray = [];
+    var i = 0;
+    lines.forEach(function(el){
+        row = el.split(';');
+        csvObj = {
+            name: row[0]//,
+            //year: row[1],
+            //month: row[2],
+            //day: row[3],
+           // mail: row[4]
+        } 
+        /*csvObj['year'] = row[1]; 
+        csvObj['month'] = row[2]; 
+        csvObj['day'] = row[3]; 
+        csvObj['mail'] = row[4];*/
+        csvArray[i] = csvObj;
+        i++;
+      });
+      
+      console.log(csvArray);
+
+    
+
 });
