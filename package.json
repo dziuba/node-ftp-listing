@@ -19,6 +19,7 @@
         "url": "http://github.com/dziuba/node-ftp-listing/issues"
     },
     "dependencies" : {
-        "ftp"   :  "*"
+        "ftp"   :  "*",
+        "csv"   :  "0.3.7"
     }
 }
