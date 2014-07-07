@@ -21,17 +21,55 @@
   c.connect({host: 'ftp.rockerspro.pl', user: 'dziuba', password: 'giwoo9du'});
 */
 
+// Clear console function
+
+var cConsole = function(){
+    var lines = process.stdout.getWindowSize()[1];
+    for(var i = 0; i < lines; i++) {
+        console.log('\r\n');
+    }
+};
+
+
+
 // CSV Listing/*
-//Converter Class
+
+/*
+var Converter=require("csvtojson").core.Converter;
 var fs=require("fs");
-var file = "sm.csv";
 
+var csvFileName="./test.csv";
+var fileStream=fs.createReadStream(csvFileName);
+//new converter instance
+var param={delimiter: ';'};
+var csvConverter=new Converter(param);
 
-fs.readFile(file, "utf8", function (err, data) {
-    if (err) throw err;
-    var elS;
-    data.forEach(function(el){
-        elS = el.split(';');
-        console.log(elS[0]);
-    });
+//end_parsed will be emitted once parsing finished
+csvConverter.on("end_parsed",function(jsonObj){
+   
+    cConsole();
+    
+   console.log(jsonObj); //here is your result json object
+   console.log('-------------------------\n-------------------------\n');
+   console.log(JSON.stringify(jsonObj));
+   //var obj = JSON.parse(jsonObj);
+   console.log('\n\n\n');
+});
+
+//read from file
+fileStream.pipe(csvConverter);
+
+*/
+var fs=require("fs");
+var parse = require('csv');
+
+var csvFileName="./test.csv";
+
+fs.readFile(csvFileName, 'utf8', function (err, data) {
+  if (err) throw err;
+  console.log(data);
+  console.log('-------------------------\n-------------------------\n');
+  parse(data, {delimiter: ';'}, function(err, output){
+      console.log(output);
+});
 });
