@@ -48,23 +48,25 @@ fs.readFile(csvFileName, 'utf8', function (err, data) {
     lines.forEach(function(el){
         var row = el.split(';');
         var name = row[0].split(' ^^^ ');
-        csvObj = {
-            artist: name[0],
-            title: name[1],
-            ean1: row[1],
-            price: row[2],
-            quantity: row[3],
-            ean2: row[4],
-            vat: row[5],
-            carrier: row[6],
-            nieWiemCoTo: row[7],
-            producer: row[8],
-            year: row[9],
-            code: row[10],
-            genere: row[11],
-            notes: row[12],
-            quantityPrice: row[13]
-        } 
+        //if(row[1].toString().length != 13){
+            csvObj = {
+                artist: name[0],
+                title: name[1],
+                ean1: row[1],
+                price: row[2],
+                quantity: row[3],
+                ean2: row[4],
+                vat: row[5],
+                carrier: row[6],
+                supplier: row[7],
+                producer: row[8],
+                year: row[9],
+                code: row[10],
+                genere: row[11],
+                notes: row[12],
+                quantityPrice: row[13]
+            }
+        //}
 
         csvArray[i] = csvObj;
         i++;
@@ -73,6 +75,7 @@ fs.readFile(csvFileName, 'utf8', function (err, data) {
     // Policz artystów, nośniki   
     var artistList = [];
     var carrierList = [];
+    var searchedFor = [];
     var searchFor = function(list, query){
         var found = false;
         list.forEach(function(el){
@@ -83,31 +86,28 @@ fs.readFile(csvFileName, 'utf8', function (err, data) {
         
         return found;
     };
-    var whereEqual = function(list, query, position){
-        var found = false;
-        list.forEach(function(el){
-           if(el == query){
-               found = true;
-           } 
-        });
-        
-        return found;
-    };
+    function strcmp ( str1, str2 ) {
+        return ( ( str1 == str2 ) ? 0 : ( ( str1 > str2 ) ? 1 : -1 ) );
+    }
     csvArray.forEach(function(el){
+        // artysta
        if(!searchFor(artistList, el.artist)) {
            artistList.push(el.artist);
        }
+       // nosnik
        if(!searchFor(carrierList, el.carrier)) {
            carrierList.push(el.carrier);
        }
+       // nosnik = odziez
+       if(!strcmp(el.carrier, "ODZIEŻ")) searchedFor.push(el);
     });
     
  
     
-    console.log("\nIlość artystów: " + artistList.length);  
-    console.log("\nIlość produktów: " + csvArray.length);
-    console.log("\nIlość nośników: " + carrierList.length + '\nNośniki: \n');
-    //console.log(carrierList);
+    //console.log("\nIlość artystów: " + artistList.length);  
+    //console.log("\nIlość produktów: " + csvArray.length);
+    //console.log("\nIlość nośników: " + carrierList.length + '\nOdzież: \n');
+    console.log(searchedFor);
     
       
     //console.log(csvArray[15000]);
