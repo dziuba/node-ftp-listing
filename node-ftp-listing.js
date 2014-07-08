@@ -30,6 +30,40 @@ var clearConsole = function(){
     }
 };
 
+var generateCarrier = function(carrier){
+    if(typeof carrier !== 'undefined'){
+        var tmp = carrier.split("+");
+        //console.log(tmp);
+        var tmp2 = [];
+        tmp.forEach(function(el){
+            var q = el.replace(/[a-zA-Z]/, ""); 
+            var c = el.replace(/[0-9]/, ""); 
+            if(parseInt(q) >= 0) q = parseInt(q); else q = 1;
+            var tmp3 = {
+                type: c,
+                quantity: q
+            };
+            tmp2.push(tmp3);
+        });
+        return tmp2;
+    }
+    return null;
+};
+
+var searchFor = function(list, query){
+        var found = false;
+        list.forEach(function(el){
+           if(el === query){
+               found = true;
+           } 
+        });
+        
+        return found;
+    };
+var strcmp = function(str1, str2 ) {
+        return ( ( str1 === str2 ) ? 0 : ( ( str1 > str2 ) ? 1 : -1 ) );
+    }
+
 var fs=require("fs");
 
 var csvFileName="./sm.csv";
@@ -48,7 +82,10 @@ fs.readFile(csvFileName, 'utf8', function (err, data) {
     lines.forEach(function(el){
         var row = el.split(';');
         var name = row[0].split(' ^^^ ');
-        //if(row[1].toString().length != 13){
+        //console.log(row[1].length);
+        if(typeof row[1] !== 'undefined')
+        if(row[1].length === 13){ 
+        //var c = generateCarrier(row[6]);
             csvObj = {
                 artist: name[0],
                 title: name[1],
@@ -57,7 +94,7 @@ fs.readFile(csvFileName, 'utf8', function (err, data) {
                 quantity: row[3],
                 ean2: row[4],
                 vat: row[5],
-                carrier: row[6],
+                carrier: generateCarrier(row[6]),
                 supplier: row[7],
                 producer: row[8],
                 year: row[9],
@@ -65,30 +102,19 @@ fs.readFile(csvFileName, 'utf8', function (err, data) {
                 genere: row[11],
                 notes: row[12],
                 quantityPrice: row[13]
-            }
-        //}
-
-        csvArray[i] = csvObj;
-        i++;
+            };
+       
+        //console.dir(csvObj.carrier);
+            csvArray[i] = csvObj;
+            i++;
+        }
       });
       
     // Policz artystów, nośniki   
     var artistList = [];
     var carrierList = [];
     var searchedFor = [];
-    var searchFor = function(list, query){
-        var found = false;
-        list.forEach(function(el){
-           if(el == query){
-               found = true;
-           } 
-        });
-        
-        return found;
-    };
-    function strcmp ( str1, str2 ) {
-        return ( ( str1 == str2 ) ? 0 : ( ( str1 > str2 ) ? 1 : -1 ) );
-    }
+    
     csvArray.forEach(function(el){
         // artysta
        if(!searchFor(artistList, el.artist)) {
@@ -99,7 +125,7 @@ fs.readFile(csvFileName, 'utf8', function (err, data) {
            carrierList.push(el.carrier);
        }
        // nosnik = odziez
-       if(!strcmp(el.carrier, "ODZIEŻ")) searchedFor.push(el);
+       if(!strcmp(el.ean1, "0016861797157")) searchedFor.push(el);
     });
     
  
@@ -107,7 +133,7 @@ fs.readFile(csvFileName, 'utf8', function (err, data) {
     //console.log("\nIlość artystów: " + artistList.length);  
     //console.log("\nIlość produktów: " + csvArray.length);
     //console.log("\nIlość nośników: " + carrierList.length + '\nOdzież: \n');
-    console.log(searchedFor);
+    console.dir(searchedFor.carrier);
     
       
     //console.log(csvArray[15000]);
@@ -115,4 +141,5 @@ fs.readFile(csvFileName, 'utf8', function (err, data) {
     
 
 });
+
 
