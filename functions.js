@@ -1,42 +1,33 @@
-// Dzieli nośniki na objekt
-
-GLOBAL.generateCarrier = function(carrier){
-    if(typeof carrier !== 'undefined'){
-        var tmp = carrier.split("+");
-        //console.log(tmp);
-        var tmp2 = [];
-        tmp.forEach(function(el){
-            var q = el.replace(/[a-zA-Z]/, ""); 
-            var c = el.replace(/[0-9]/, ""); 
-            if(parseInt(q) >= 0) q = parseInt(q); else q = 1;
-            var tmp3 = {
-                type: c,
-                quantity: q
-            };
-            tmp2.push(tmp3);
-        });
-        return tmp2;
-    }
-    return null;
-};
-
-
 // Szukaj w tablicy
 GLOBAL.searchFor = function(list, query){
         var found = false;
         list.forEach(function(el){
            if(el === query){
                found = true;
+               return found;
            } 
         });
         
         return found;
     };
     
+GLOBAL.searchForInObject = function(object, param, query, callback){
+    var found = false;
+    object.forEach(function(el){
+       if(eval('el.'+param) === query){
+           found = true;
+           callback(found);
+           return found;
+       }
+    });
+
+    callback(found); //return found;
+};
+    
 // Porównaj string
 GLOBAL.strcmp = function(str1, str2 ) {
         return ( ( str1 === str2 ) ? 0 : ( ( str1 > str2 ) ? 1 : -1 ) );
-    }
+    };
     
 // Sprawdź poprawność eanu
 GLOBAL.checkEan13 = function(ean){
@@ -86,14 +77,41 @@ GLOBAL.log = function(msg, type){
 
 GLOBAL.removeDoubleFromObject = function(array, param, callback){
     var list = [];
-    var i = 0;
+    var i = 1;
     array.forEach(function(el){
         if(eval("!searchFor(list, el."+ param +")")) {
             eval("list.push(el."+ param +");");
         }
-        if(array.length === (i+1)){
+        if(array.length === i){
             callback(list);
         }
         i++;
     });
 };
+
+GLOBAL.newArrayFrom2ArraysA = function(arrayA, arrayB, callback){
+    var i = 1;
+    var list = [];
+    arrayA.forEach(function(el){
+        if(!searchFor(arrayB, el))
+            list.push(el);
+        
+        if(arrayA === i) callback(list);
+        i++;
+    });
+};
+
+GLOBAL.removeObjectParamFromArray = function(array, object, param, callback){
+    log('Tworzę listę nowych artystów.');
+    var i = 1;
+    var list = [];
+    array.forEach(function(el){
+        if(i % 2500 === 0) log('Sprawdzono '+ Math.round((i/array.length)*10000)/100 +'% artystów');
+        searchForInObject(object, param, el, function(f){      
+            if(!f) list.push(el);
+        });
+        if(array.length === i) callback(list);
+        i++;
+    });
+};
+

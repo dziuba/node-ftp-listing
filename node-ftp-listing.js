@@ -1,40 +1,35 @@
 // External files
 require('./functions.js');
 require('./csv-parse.js');
+require('./mysql.js');
+require('./add-update-artists.js');
 
-// CSV product file
-GLOBAL.fs=require("fs");
-var csvFileName="./sm.csv";
+// Settings
+
+GLOBAL.settings = {
+    fs: require("fs"),
+    csvFileName: "./sm.csv",
+    mysql: require('mysql'),
+    mysqlSettings: {
+      host     : 'localhost',
+      user     : 'root',
+      password : '',
+      database : 'rockers_panel_07082014',
+      multipleStatements: true
+    }
+};
 
 
-// Mysql connection
-/*var mysql      = require('mysql');
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'rockers_panel_07082014',
-  multipleStatements: true
-});*/
-
-// Date generation
-//GLOBAL.dateFormat = require('dateformat');
-//var now;// = new Date();
 
 /////////////////////////////////////////
 // Main program
 /////////////////////////////////////////
 
-//connection.connect();
-
-parseCSV(fs, csvFileName, function(products){
-    // Przygotowujemy listę wszytkich artystów [usuwanie dubli]
-    removeDoubleFromObject(products, "artist", function(artists){
-        log('Usunięto zdublowanych artystów [' + artists.length + ' artystów].');
+addUpdateArtist(function(products, artists){
+    products.forEach(function(el){
+        if(el.titleBracket !== null) log(el.titleBracket);
     });
-    
-    
-    // Pobierz listę artystów z bazy
-    // Z listy wszytkich usuń artystów z bazy
-    // Dodaj do bazy artystów z pozostałej listy
 });
+
+
+

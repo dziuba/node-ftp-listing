@@ -1,10 +1,44 @@
-//var dateFormat = require('dateformat');
+// Dzieli nośniki na objekt
+GLOBAL.generateCarrier = function(carrier){
+    if(typeof carrier !== 'undefined'){
+        var tmp = carrier.split("+");
+        //console.log(tmp);
+        var tmp2 = [];
+        tmp.forEach(function(el){
+            var q = el.replace(/[a-zA-Z]/, ""); 
+            var c = el.replace(/[0-9]/, ""); 
+            if(parseInt(q) >= 0) q = parseInt(q); else q = 1;
+            var tmp3 = {
+                type: c,
+                quantity: q
+            };
+            tmp2.push(tmp3);
+        });
+        return tmp2;
+    }
+    return null;
+};
 
+GLOBAL.patternStr = function(title, inverse){
+    
+    if(title !== undefined && title !== null){
+        var pattern = /\([0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\ \*]*\)/i;
+        if(inverse){
+            title = title.replace(pattern, '');
+        }else{
+            title = title.match(pattern);
+        }
+        return title;
+    }
+    return null;
+    
+};
+
+// Główne parsowanie pliku
 GLOBAL.parseCSV = function(fs, file, callback){
-      
     fs.readFile(file, 'utf8', function (err, data) {
     if (err) throw err;
-    
+
     log('Rozpoczynam przetwarzanie CSV Produkty.');
     
     var lines = data.split('\r\n');
@@ -15,11 +49,6 @@ GLOBAL.parseCSV = function(fs, file, callback){
     
     // Rozszyfruj CSV
     lines.forEach(function(el){
-        /*if(i % 1000 === 0){
-            now = new Date();
-            console.log(dateFormat(now, "yyyy-mm-dd HH:MM:ss") + ': Przetworzono ' + i + ' produktów.');
-        }*/
-        
         var row = el.split(';');
         var name = row[0].split(' ^^^ ');
         //console.log(row[1].length);
@@ -30,6 +59,8 @@ GLOBAL.parseCSV = function(fs, file, callback){
                 csvObj = {
                     artist: name[0],
                     title: name[1],
+                    titleClean:patternStr(name[1], true),
+                    titleBracket: patternStr(name[1], false),
                     ean1: row[1],
                     price: row[2],
                     quantity: row[3],
@@ -50,7 +81,7 @@ GLOBAL.parseCSV = function(fs, file, callback){
                 //console.log((lines.length-cEan) +' '+ i);
                 if((lines.length-cEan) === (i+3)){
                     now = new Date();
-                    log('Przetworzono CSV [' + (i+1) +' produktów].');
+                    log('Przetworzono produkty [' + (i+1) +'].');
                     callback(csvArray);
                 }
 

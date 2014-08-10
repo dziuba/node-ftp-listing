@@ -1,0 +1,1 @@
+iconv/bin/iconv.exe -f WINDOWS-1250 -t UTF-8 sm.csv
