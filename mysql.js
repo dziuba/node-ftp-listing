@@ -1,6 +1,6 @@
 
-GLOBAL.returnQuery = function(mysql, connectionSetting, query, callback){
-    var connection = mysql.createConnection(connectionSetting);
+GLOBAL.returnQuery = function(settings, query, callback){
+    var connection = settings.mysql.createConnection(settings.mysqlSettings);
     connection.connect();
     connection.query(query, function(err, rows, fields) {
           if (err) throw err;
@@ -10,8 +10,8 @@ GLOBAL.returnQuery = function(mysql, connectionSetting, query, callback){
         }); 
 };
 
-GLOBAL.nonreturnQuery = function(mysql, connectionSetting, query, callback){
-    var connection = mysql.createConnection(connectionSetting);
+GLOBAL.nonreturnQuery = function(mysql, settings, query, callback){
+    var connection = settings.mysql.createConnection(settings.mysqlSettings);
     connection.connect();
     connection.query(query, function(err, result) {
           if (err) throw err;

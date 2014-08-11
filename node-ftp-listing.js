@@ -25,11 +25,14 @@ GLOBAL.settings = {
 // Main program
 /////////////////////////////////////////
 
-addUpdateArtist(function(products, artists){
-    products.forEach(function(el){
-        if(el.titleBracket !== null) log(el.titleBracket);
+
+parseCSV(settings.fs, settings.csvFileName, function(products){
+    addUpdateArtist(function(artists){
+    
     });
 });
+
+
 
 
 
