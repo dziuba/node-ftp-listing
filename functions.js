@@ -102,11 +102,10 @@ GLOBAL.newArrayFrom2ArraysA = function(arrayA, arrayB, callback){
 };
 
 GLOBAL.removeObjectParamFromArray = function(array, object, param, callback){
-    log('Tworzę listę nowych artystów.');
     var i = 1;
     var list = [];
     array.forEach(function(el){
-        if(i % 2500 === 0) log('Sprawdzono '+ Math.round((i/array.length)*10000)/100 +'% artystów');
+        if(i % 2500 === 0) log('Sprawdzono '+ Math.round((i/array.length)*10000)/100 +'%');
         searchForInObject(object, param, el, function(f){      
             if(!f) list.push(el);
         });

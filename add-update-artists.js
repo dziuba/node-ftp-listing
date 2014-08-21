@@ -1,4 +1,4 @@
-GLOBAL.addUpdateArtist = function(callback){
+GLOBAL.addUpdateArtist = function(products, callback){
     // Przygotowujemy listę wszytkich artystów [usuwanie dubli]
         removeDoubleFromObject(products, "artist", function(artists){
             log('Usunięto zdublowanych artystów [' + artists.length + '].');
@@ -8,6 +8,7 @@ GLOBAL.addUpdateArtist = function(callback){
                 log('Pobrano artystów z bazy ['+ rows.length +']');
                 // Z listy wszytkich usuń artystów z bazy
                 if(artists.length !== rows.length){
+                    log('Tworzę listę artystów do dodania.');
                     removeObjectParamFromArray(artists, rows, "symfonia_name", function(artistsToAdd){
                         log('Nowi artyści ['+ artistsToAdd.length +']');
                         makeQueryNewArtists(artistsToAdd, function(query){

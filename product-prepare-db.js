@@ -1,4 +1,4 @@
-GLOBAL.prepareProducts = function(callback){
+GLOBAL.prepareProducts = function(products, artists, carriers, callback){
     var data = [];
     var search;
     artists.forEach(function(art){

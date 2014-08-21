@@ -3,6 +3,8 @@ require('./functions.js');
 require('./csv-parse.js');
 require('./mysql.js');
 require('./add-update-artists.js');
+require('./add-update-carriers.js');
+require('./product-prepare-db.js');
 
 // Settings
 
@@ -27,8 +29,12 @@ GLOBAL.settings = {
 
 
 parseCSV(settings.fs, settings.csvFileName, function(products){
-    addUpdateArtist(function(artists){
-    
+    addUpdateArtist(products,function(artists){
+        addUpdateCarriers(products, function(carriers){
+            prepareProducts(products, artists, carriers, function(data){
+               console.log(data); 
+            });
+        });
     });
 });
 

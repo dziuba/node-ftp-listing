@@ -10,7 +10,7 @@ GLOBAL.returnQuery = function(settings, query, callback){
         }); 
 };
 
-GLOBAL.nonreturnQuery = function(mysql, settings, query, callback){
+GLOBAL.nonreturnQuery = function(settings, query, callback){
     var connection = settings.mysql.createConnection(settings.mysqlSettings);
     connection.connect();
     connection.query(query, function(err, result) {
@@ -34,6 +34,29 @@ GLOBAL.makeQueryNewArtists = function(artists, callback){
         query +=sql;
         
         if(artists.length === i) callback(query);
+        i++;
+    });
+};
+
+GLOBAL.makeQueryNewCarriers = function(carriers, callback){
+    var dateFormat = require('dateformat');
+    var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
+    var mysql = require('mysql');
+    var query = ''; 
+    var i = 1;
+    var sql;
+    carriers.forEach(function(el){
+        if(i === 1){
+            sql = "INSERT INTO `carriers` (`name`, `created`, `modified`) VALUES (?,?,?)";
+        }else{
+            sql = ', (?,?,?)';
+        }
+       
+        var inserts = [el, datetime, datetime];
+        sql = mysql.format(sql, inserts);
+        query +=sql;
+        
+        if(carriers.length === i) callback(query);
         i++;
     });
 };
