@@ -23,6 +23,19 @@ GLOBAL.searchForInObject = function(object, param, query, callback){
 
     callback(found); //return found;
 };
+
+// pobierz pojedynczy szukany objekt
+GLOBAL.searchForInObjectAndReturn = function(object, param, query, callback){
+    var found = false;
+    object.forEach(function(el){
+       if(eval('el.'+param) === query){
+           found = true;
+           callback(el);
+       }
+    });
+
+    callback(found); //return found;
+};
     
 // Porównaj string
 GLOBAL.strcmp = function(str1, str2 ) {

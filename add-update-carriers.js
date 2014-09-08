@@ -9,14 +9,14 @@ GLOBAL.addUpdateCarriers = function(products, callback){
                     makeCarriersToAdd(rows, clearCarriers, function(carriersToAddQuery){
                         nonreturnQuery(settings, carriersToAddQuery, function(result){
                             log('Dodano nowe nośniki ['+ result.affectedRows +']');
-                            returnQuery(settings, "SELECT id, product_type_id, name FROM carriers", function(rows){
+                            returnQuery(settings, "SELECT id, product_group_id, name, priority FROM carriers", function(rows){
                                callback(rows); 
                             });
                         });
                     });
                 }else{
                     log('Brak nowych nośników.');
-                    returnQuery(settings, "SELECT id, product_type_id, name FROM carriers", function(rows){
+                    returnQuery(settings, "SELECT id, product_group_id, name, priority FROM carriers", function(rows){
                        callback(rows); 
                     });
                 }
