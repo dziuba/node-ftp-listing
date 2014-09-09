@@ -5,6 +5,7 @@ require('./mysql.js');
 require('./add-update-artists.js');
 require('./add-update-carriers.js');
 require('./product-prepare-db.js');
+require('./product-add-db.js');
 
 // Settings
 
@@ -32,7 +33,9 @@ parseCSV(settings.fs, settings.csvFileName, function(products){
     addUpdateArtist(products,function(artists){
         addUpdateCarriers(products, function(carriers){
             prepareProducts(products, artists, carriers, function(data){
-               console.log(data); 
+               getOrAddProductId(data, function(data){
+                   console.log(data);
+               });
             });
         });
     });
