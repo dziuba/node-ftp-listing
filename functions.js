@@ -78,12 +78,15 @@ GLOBAL.log = function(msg, type){
     var clc = require('cli-color');
     
     var error = clc.redBright;
+    var good = clc.greenBright;
     //var warn = clc.yellow;
     //var notice = clc.blue;
     var bold = clc.bold;
     
     if(type === 0)
         console.log(bold(dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")) + ' ' + msg);
+    else if(type === 2)
+        console.log(bold(dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")) + ' ' + good(msg));
     else
         console.log(bold(dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")) + ' ' + error(msg));
 };

@@ -33,8 +33,8 @@ parseCSV(settings.fs, settings.csvFileName, function(products){
     addUpdateArtist(products,function(artists){
         addUpdateCarriers(products, function(carriers){
             prepareProducts(products, artists, carriers, function(data){
-               getOrAddProductId(data, function(data){
-                   console.log(data);
+               getOrAddProductIdR(data, function(dataWithId){
+                   
                });
             });
         });
