@@ -33,9 +33,9 @@ parseCSV(settings.fs, settings.csvFileName, function(products){
     addUpdateArtist(products,function(artists){
         addUpdateCarriers(products, function(carriers){
             prepareProducts(products, artists, carriers, function(data){
-               getOrAddProductIdR(data, function(dataWithId){
-                   
-               });
+                getOrAddProductIdR(data, function(dataWithId){
+                    addOrUpdateEans(dataWithId, carriers);
+                });
             });
         });
     });

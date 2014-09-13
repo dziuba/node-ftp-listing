@@ -73,7 +73,8 @@ GLOBAL.parseCSV = function(fs, file, callback){
                     code: row[10],
                     genere: row[11],
                     notes: row[12],
-                    quantityPrice: row[13]
+                    quantityPrice: row[13],
+                    db_id: null
                 };
 
             //console.dir(csvObj.carrier);

@@ -1,4 +1,5 @@
 GLOBAL.prepareProducts = function(products, artists, carriers, callback){
+    log('Przygotowuję tablicę produktów.');
     var data = [];
     var i = 1;
     artists.forEach(function(art){ if(art.id ===7564){
@@ -26,7 +27,10 @@ GLOBAL.prepareProducts = function(products, artists, carriers, callback){
 
         data.push(tmp);
         }
-        if(i === artists.length) callback(data);
+        if(i === artists.length){
+            log('Zakończono przygotowywanie.');
+            callback(data);
+        }
         i++;
         
     }); 

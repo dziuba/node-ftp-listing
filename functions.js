@@ -79,6 +79,7 @@ GLOBAL.log = function(msg, type){
     
     var error = clc.redBright;
     var good = clc.greenBright;
+    var warning = clc.yellowBright;
     //var warn = clc.yellow;
     //var notice = clc.blue;
     var bold = clc.bold;
@@ -87,6 +88,8 @@ GLOBAL.log = function(msg, type){
         console.log(bold(dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")) + ' ' + msg);
     else if(type === 2)
         console.log(bold(dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")) + ' ' + good(msg));
+    else if(type === 3)
+        console.log(bold(dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")) + ' ' + warning(msg));
     else
         console.log(bold(dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")) + ' ' + error(msg));
 };
