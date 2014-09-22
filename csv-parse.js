@@ -19,6 +19,19 @@ GLOBAL.generateCarrier = function(carrier){
     return null;
 };
 
+GLOBAL.generateGeneres = function(genere){
+    if(typeof genere !== 'undefined'){
+        var tmp = genere.split("/");
+        //console.log(tmp);
+        /*var tmp2 = [];
+        tmp.forEach(function(el){
+            tmp2.push(el);
+        });*/
+        return tmp;
+    }
+    return null;
+};
+
 GLOBAL.patternStr = function(title, inverse){
     
     if(title !== undefined && title !== null){
@@ -71,7 +84,7 @@ GLOBAL.parseCSV = function(fs, file, callback){
                     producer: row[8],
                     year: row[9],
                     code: row[10],
-                    genere: row[11],
+                    genere: generateGeneres(row[11]),
                     notes: row[12],
                     quantityPrice: row[13],
                     db_id: null

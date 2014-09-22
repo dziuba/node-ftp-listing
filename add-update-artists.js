@@ -13,7 +13,7 @@ GLOBAL.addUpdateArtist = function(products, callback){
                         log('Nowi artyści ['+ artistsToAdd.length +']');
                         makeQueryNewArtists(artistsToAdd, function(query){
                            log('Dodaję do bazy danych.');
-                           nonreturnQuery(settings.mysql, query, function(result){
+                           nonreturnQuery(settings, query, function(result){
                                var aR = 0;
                                result.forEach(function(el){
                                   aR += el.affectedRows; 

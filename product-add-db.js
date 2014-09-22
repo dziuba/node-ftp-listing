@@ -154,7 +154,10 @@ var scanProducts = function(data, artistIterator, productIterator, callback){
 
 var checkAndRetunProductId = function(title, group, artistId, callback){
     var query = 'SELECT `id` FROM `products` WHERE `symfonia_name` = ? and `product_group_id` = ? LIMIT 0,1';
-    var inserts = [title.replace(/ /g, ''), group];
+    if(title !== null)
+        var inserts = [title.replace(/ /g, ''), group];
+    else
+        var inserts = ["BŁĄD_BARK_NAZWY", group];
     query = settings.mysql.format(query, inserts);
     //log(query,1);
     returnQuery(settings, query, function(rows){
@@ -163,7 +166,10 @@ var checkAndRetunProductId = function(title, group, artistId, callback){
             var dateFormat = require('dateformat');
             var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
             query = "INSERT INTO `products` (`name`, `symfonia_name`, `product_group_id`, `created`, `modified`) VALUES (?,?,?,?,?);";
-            inserts = [title, title.replace(/ /g, ''), group,  datetime, datetime];
+            if(title !== null)
+                inserts = [title, title.replace(/ /g, ''), group,  datetime, datetime];
+            else
+                inserts = ["BŁĄD_BARK_NAZWY", "BŁĄD_BARK_NAZWY", group,  datetime, datetime];
             query = settings.mysql.format(query, inserts);
             nonreturnQuery(settings, query, function(result){
                 //log('Dodano produkt (id: '+ result.insertId +')');

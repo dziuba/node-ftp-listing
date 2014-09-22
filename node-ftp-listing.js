@@ -4,6 +4,9 @@ require('./csv-parse.js');
 require('./mysql.js');
 require('./add-update-artists.js');
 require('./add-update-carriers.js');
+require('./add-update-producers.js');
+require('./add-update-suppliers.js');
+require('./add-update-generes.js');
 require('./product-prepare-db.js');
 require('./product-add-db.js');
 
@@ -32,9 +35,13 @@ GLOBAL.settings = {
 parseCSV(settings.fs, settings.csvFileName, function(products){
     addUpdateArtist(products,function(artists){
         addUpdateCarriers(products, function(carriers){
-            prepareProducts(products, artists, carriers, function(data){
-                getOrAddProductIdR(data, function(dataWithId){
-                    addOrUpdateEans(dataWithId, carriers);
+            addUpdateGeneres(products, function(generes){
+                addUpdateProducers(products, function(producers){
+                    addUpdateSuppliers(products, function(suppliers){
+                        prepareProducts(products, artists, carriers, function(data){
+                            console.log(data);
+                        });
+                    });
                 });
             });
         });
@@ -45,3 +52,19 @@ parseCSV(settings.fs, settings.csvFileName, function(products){
 
 
 
+/*
+ * 
+ * prepareProducts(products, artists, carriers, function(data){
+                getOrAddProductIdR(data, function(dataWithId){
+                    addOrUpdateEans(dataWithId, carriers);
+                });
+            });
+ */
+
+//addUpdateArtist(products,function(artists){
+        //addUpdateCarriers(products, function(carriers){
+            //addUpdateGeneres(products, function(generes){
+             //  console.log(generes); 
+           // });
+        //});
+    //});

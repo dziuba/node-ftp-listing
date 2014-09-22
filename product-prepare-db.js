@@ -11,7 +11,7 @@ GLOBAL.prepareProducts = function(products, artists, carriers, callback){
         products.forEach(function(prod){  
             if(!strcmp(art.symfonia_name, prod.artist)){
                 getGroupForProduct(prod, carriers, function(group){
-                    if(group >= 0){
+                    if(group > 0){ // eliminuje produkty bez grupy produktowej
                         if(!checkForProducts(tmp.products, prod.titleClean, group)){
                                 tmp.products.push({title: prod.titleClean, group: group, eans: [prod], product_id: null});
                         }else{

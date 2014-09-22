@@ -38,6 +38,40 @@ GLOBAL.makeQueryNewArtists = function(artists, callback){
     });
 };
 
+GLOBAL.makeQueryNewProducers = function(artists, callback){
+    var dateFormat = require('dateformat');
+    var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
+    var mysql = require('mysql');
+    var query = ''; 
+    var i = 1;
+    artists.forEach(function(el){
+        var sql = "INSERT INTO `producers` (`name`, `symfonia_name`, `created`, `modified`) VALUES (?,?,?,?);";
+        var inserts = [el, el, datetime, datetime];
+        sql = mysql.format(sql, inserts);
+        query +=sql;
+        
+        if(artists.length === i) callback(query);
+        i++;
+    });
+};
+
+GLOBAL.makeQueryNewSuppliers = function(artists, callback){
+    var dateFormat = require('dateformat');
+    var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
+    var mysql = require('mysql');
+    var query = ''; 
+    var i = 1;
+    artists.forEach(function(el){
+        var sql = "INSERT INTO `suppliers` (`name`, `symfonia_name`, `created`, `modified`) VALUES (?,?,?,?);";
+        var inserts = [el, el, datetime, datetime];
+        sql = mysql.format(sql, inserts);
+        query +=sql;
+        
+        if(artists.length === i) callback(query);
+        i++;
+    });
+};
+
 GLOBAL.makeQueryNewCarriers = function(carriers, callback){
     var dateFormat = require('dateformat');
     var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
@@ -53,6 +87,29 @@ GLOBAL.makeQueryNewCarriers = function(carriers, callback){
         }
        
         var inserts = [el, datetime, datetime];
+        sql = mysql.format(sql, inserts);
+        query +=sql;
+        
+        if(carriers.length === i) callback(query);
+        i++;
+    });
+};
+
+GLOBAL.makeQueryNewGeneres = function(carriers, callback){
+    var dateFormat = require('dateformat');
+    var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
+    var mysql = require('mysql');
+    var query = ''; 
+    var i = 1;
+    var sql;
+    carriers.forEach(function(el){
+        if(i === 1){
+            sql = "INSERT INTO `generes` (`name`, `symfonia_name`, `created`, `modified`) VALUES (?,?,?,?)";
+        }else{
+            sql = ', (?,?,?,?)';
+        }
+       
+        var inserts = [el, el, datetime, datetime];
         sql = mysql.format(sql, inserts);
         query +=sql;
         
