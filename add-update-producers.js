@@ -7,17 +7,20 @@ GLOBAL.addUpdateProducers = function(products, callback){
             returnQuery(settings, query, function(rows){
                 log('Pobrano producentów z bazy ['+ rows.length +']');
                 // Z listy wszytkich usuń artystów z bazy
-                if(producers.length !== rows.length){
+                if(rows.length < producers.length){
                     log('Tworzę listę producentów do dodania.');
                     removeObjectParamFromArray(producers, rows, "symfonia_name", function(producersToAdd){
                         log('Nowi producenci ['+ producersToAdd.length +']');
                         makeQueryNewProducers(producersToAdd, function(query){
                            log('Dodaję do bazy danych.');
                            nonreturnQuery(settings, query, function(result){
-                               var aR = 0;
-                               result.forEach(function(el){
-                                  aR += el.affectedRows; 
-                               });
+                                var aR = 0;
+                                if(result.length > 0)
+                                    result.forEach(function(el){
+                                    aR += el.affectedRows; 
+                                    });
+                                else
+                                    aR = result.affectedRows
                               log('Dodano do bazy ['+ aR +']'); 
                               returnQuery(settings, "SELECT id, symfonia_name FROM producers;", function(rows){
                                     callback(rows);

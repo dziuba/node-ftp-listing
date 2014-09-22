@@ -15,36 +15,34 @@ GLOBAL.searchForInObject = function(object, param, query, callback){
     var found = false;
     var obj;
     var i = 1;
-    object.forEach(function(el){
-       if(eval('el.'+param) === query){
-           found = true;
-           obj = el;
-       }
-       if(object.length === i){
-           if(found) 
-               callback(obj) ;
-           else 
-               callback(false);
-       }
-       i++;
-    });
+    
     if(object.length === 0){
         callback(false);
     }
-
+    
+    object.forEach(function(el){
+       if(eval('el.'+param) === query){
+           found = true;
+       }
+       if(object.length === i) callback(found);
+       i++;
+    });
 };
 
 // pobierz pojedynczy szukany objekt
 GLOBAL.searchForInObjectAndReturn = function(object, param, query, callback){
-    var found = false;
+    if(object.length === 0) 
+        callback(false);
+    
+    var i = 1;
     object.forEach(function(el){
        if(eval('el.'+param) === query){
-           found = true;
            callback(el);
        }
+       if(object.length === i) callback(false);
+       i++;
     });
 
-    callback(found); //return found;
 };
     
 // Porównaj string
@@ -109,7 +107,8 @@ GLOBAL.removeDoubleFromObject = function(array, param, callback){
     var i = 1;
     array.forEach(function(el){
         if(eval("!searchFor(list, el."+ param +")")) {
-            eval("list.push(el."+ param +");");
+            if(eval("el."+ param) !== '')            
+                eval("list.push(el."+ param +");");
         }
         if(array.length === i){
             callback(list);
@@ -131,13 +130,12 @@ GLOBAL.newArrayFrom2ArraysA = function(arrayA, arrayB, callback){
 };
 
 GLOBAL.removeObjectParamFromArray = function(array, object, param, callback){
-    var i = 1;
+    var i = 0;
     var list = [];
     array.forEach(function(el){
         if(i % 2500 === 0) log('Sprawdzono '+ Math.round((i/array.length)*10000)/100 +'%');
         searchForInObject(object, param, el, function(f){ 
-            if(!f) list.push(el);
-
+            if(!f) if(el !== '') list.push(el);
             i++;
         });
         if(array.length === i) callback(list);

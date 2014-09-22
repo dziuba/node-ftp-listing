@@ -2,7 +2,7 @@ GLOBAL.prepareProducts = function(products, artists, carriers, generes, callback
     log('Przygotowuję tablicę produktów.');
     var data = [];
     var i = 1;
-    artists.forEach(function(art){ if(art.id ===17958){
+    artists.forEach(function(art){ if(art.id ===7564){
         var tmp = {
             id: art.id,
             name: art.symfonia_name,
@@ -12,7 +12,7 @@ GLOBAL.prepareProducts = function(products, artists, carriers, generes, callback
             if(!strcmp(art.symfonia_name, prod.artist)){
                 getGroupForProduct(prod, carriers, function(group){
                     if(group > 0){ // eliminuje produkty bez grupy produktowej
-                        if(!checkForProducts(tmp.products, prod.titleClean, group)){
+                        if(!checkForProducts(tmp.products, prod.titleClean, group)){   
                             generateGeneresArray(generes, prod, function(gen){
                                 tmp.products.push({title: prod.titleClean, group: group, eans: [prod], product_id: null, generes: gen});
                             });
@@ -42,13 +42,13 @@ var generateGeneresArray = function(generes, product, callback){
     var list = [];
     var i = 1;
     product.genere.forEach(function(gen){
-        searchForInObject(generes, 'symfonia_name', gen, function(found){
+        searchForInObjectAndReturn(generes, 'symfonia_name', gen, function(found){
             if(found !== false){
                 list.push(found.id);
             }
+            if(product.genere.length === i) callback(list);
             i++; 
-        });
-        if(product.genere.length === i) callback(list);
+        }); 
     });
     
 };

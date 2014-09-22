@@ -4,7 +4,7 @@ GLOBAL.addUpdateCarriers = function(products, callback){
         clearCarriersList(carriers, function(clearCarriers){
             log('Zrobiono listę nośników ['+ clearCarriers.length+']');
             returnQuery(settings, "SELECT * FROM carriers", function(rows){
-                if(rows.length < clearCarriers.length){
+                if(rows.length+1 < clearCarriers.length){
                     log('Tworzę listę nośników do dodania.');
                     makeCarriersToAdd(rows, clearCarriers, function(carriersToAddQuery){
                         nonreturnQuery(settings, carriersToAddQuery, function(result){

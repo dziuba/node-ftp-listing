@@ -4,7 +4,7 @@ GLOBAL.addUpdateGeneres = function(products, callback){
         clearGeneresList(generes, function(clearGeneres){
             log('Zrobiono listę gatunków ['+ clearGeneres.length+']');
             returnQuery(settings, "SELECT * FROM generes", function(rows){
-                if(rows.length < clearGeneres.length){
+                if(rows.length+1 < clearGeneres.length){
                     log('Tworzę listę gatunków do dodania.');
                     makeGeneresToAdd(rows, clearGeneres, function(generesToAddQuery){
                         nonreturnQuery(settings, generesToAddQuery, function(result){
@@ -43,7 +43,8 @@ GLOBAL.clearGeneresList = function(generes, callback){
         var i = 1;
         generes.forEach(function(gen){
                 if(!searchFor(list, gen))
-                    list.push(gen);
+                    if(gen !== '')
+                        list.push(gen);
                 
                 if(generes.length === i)
                    callback(list);
