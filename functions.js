@@ -13,15 +13,25 @@ GLOBAL.searchFor = function(list, query){
     
 GLOBAL.searchForInObject = function(object, param, query, callback){
     var found = false;
+    var obj;
+    var i = 1;
     object.forEach(function(el){
        if(eval('el.'+param) === query){
            found = true;
-           callback(found);
-           return found;
+           obj = el;
        }
+       if(object.length === i){
+           if(found) 
+               callback(obj) ;
+           else 
+               callback(false);
+       }
+       i++;
     });
+    if(object.length === 0){
+        callback(false);
+    }
 
-    callback(found); //return found;
 };
 
 // pobierz pojedynczy szukany objekt
@@ -125,11 +135,13 @@ GLOBAL.removeObjectParamFromArray = function(array, object, param, callback){
     var list = [];
     array.forEach(function(el){
         if(i % 2500 === 0) log('Sprawdzono '+ Math.round((i/array.length)*10000)/100 +'%');
-        searchForInObject(object, param, el, function(f){      
+        searchForInObject(object, param, el, function(f){ 
             if(!f) list.push(el);
+
+            i++;
         });
         if(array.length === i) callback(list);
-        i++;
+        
     });
 };
 

@@ -1,8 +1,8 @@
-GLOBAL.prepareProducts = function(products, artists, carriers, callback){
+GLOBAL.prepareProducts = function(products, artists, carriers, generes, callback){
     log('Przygotowuję tablicę produktów.');
     var data = [];
     var i = 1;
-    artists.forEach(function(art){ if(art.id ===7564){
+    artists.forEach(function(art){ if(art.id ===17958){
         var tmp = {
             id: art.id,
             name: art.symfonia_name,
@@ -13,7 +13,9 @@ GLOBAL.prepareProducts = function(products, artists, carriers, callback){
                 getGroupForProduct(prod, carriers, function(group){
                     if(group > 0){ // eliminuje produkty bez grupy produktowej
                         if(!checkForProducts(tmp.products, prod.titleClean, group)){
-                                tmp.products.push({title: prod.titleClean, group: group, eans: [prod], product_id: null});
+                            generateGeneresArray(generes, prod, function(gen){
+                                tmp.products.push({title: prod.titleClean, group: group, eans: [prod], product_id: null, generes: gen});
+                            });
                         }else{
                             tmp.products = insertInProductArray(tmp.products, prod.titleClean, group, prod);
                         }                    
@@ -34,6 +36,21 @@ GLOBAL.prepareProducts = function(products, artists, carriers, callback){
         i++;
         
     }); 
+};
+
+var generateGeneresArray = function(generes, product, callback){
+    var list = [];
+    var i = 1;
+    product.genere.forEach(function(gen){
+        searchForInObject(generes, 'symfonia_name', gen, function(found){
+            if(found !== false){
+                list.push(found.id);
+            }
+            i++; 
+        });
+        if(product.genere.length === i) callback(list);
+    });
+    
 };
 
 GLOBAL.getGroupForProduct = function(prod, carriers, callback){

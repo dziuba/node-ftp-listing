@@ -7,9 +7,10 @@ GLOBAL.addUpdateArtist = function(products, callback){
             returnQuery(settings, query, function(rows){
                 log('Pobrano artystów z bazy ['+ rows.length +']');
                 // Z listy wszytkich usuń artystów z bazy
-                if(artists.length !== rows.length){
+                if(artists.length !== (rows.length+1)){
                     log('Tworzę listę artystów do dodania.');
                     removeObjectParamFromArray(artists, rows, "symfonia_name", function(artistsToAdd){
+                        console.log(artistsToAdd);
                         log('Nowi artyści ['+ artistsToAdd.length +']');
                         makeQueryNewArtists(artistsToAdd, function(query){
                            log('Dodaję do bazy danych.');

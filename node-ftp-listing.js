@@ -38,8 +38,10 @@ parseCSV(settings.fs, settings.csvFileName, function(products){
             addUpdateGeneres(products, function(generes){
                 addUpdateProducers(products, function(producers){
                     addUpdateSuppliers(products, function(suppliers){
-                        prepareProducts(products, artists, carriers, function(data){
-                            console.log(data);
+                        prepareProducts(products, artists, carriers, generes, function(data){
+                            getOrAddProductIdR(data, function(dataWithId){
+                                addOrUpdateEans(dataWithId, carriers, producers, suppliers);
+                            });
                         });
                     });
                 });
