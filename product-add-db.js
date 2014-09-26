@@ -61,8 +61,8 @@ var addUpdateEans = function(ean, productId, callback){
                 getSupplierId(ean.supplier, function(supplierId){
                     var dateFormat = require('dateformat');
                     var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
-                    query = "INSERT INTO `eans` (`product_id`, `ean`, `price`, `quantity`, `ean2`, `vat`, `code`, `notes`, `quantity_price`, `name`, `supplier_id`, `producer_id`, `created`, `modified`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-                    inserts = [productId, ean.ean1, ean.price, ean.quantity, ean.ean2, ean.vat, ean.code, ean.notes, ean.quantityPrice, ean.title, supplierId, producerId, datetime, datetime];
+                    query = "INSERT INTO `eans` (`product_id`, `ean`, `price`, `quantity`, `ean2`, `vat`, `code`, `notes`, `cost`, `name`, `short_name`, `full_name`, `supplier_id`, `producer_id`, `created`, `modified`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                    inserts = [productId, ean.ean1, ean.price, ean.quantity, ean.ean2, ean.vat, ean.code, ean.notes, ean.quantityPrice, ean.titleClean, ean.titleBracket, ean.title, supplierId, producerId, datetime, datetime];
                     query = settings.mysql.format(query, inserts);
                     nonreturnQuery(settings, query, function(result){
                         var eanDbId = result.insertId;
@@ -76,7 +76,7 @@ var addUpdateEans = function(ean, productId, callback){
             var eanDbId = rows[0].id;
             var dateFormat = require('dateformat');
             var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
-            query = "UPDATE `eans` SET `price` = ?, `quantity` = ?, `quantity_price` = ?, `modified` = ? WHERE `id` = ?";
+            query = "UPDATE `eans` SET `price` = ?, `quantity` = ?, `cost` = ?, `modified` = ? WHERE `id` = ?";
             inserts = [ean.price, ean.quantity, ean.quantity_price, datetime, eanDbId];
             query = settings.mysql.format(query, inserts);
             nonreturnQuery(settings, query, function(result){

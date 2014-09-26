@@ -25,7 +25,7 @@ GLOBAL.settings = {
     }
 };
 
-
+/* w wyniku błędu pole quantity_price[CSV] dodaje się jako cost[DB] */
 
 /////////////////////////////////////////
 // Main program
