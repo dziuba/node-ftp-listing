@@ -71,6 +71,8 @@ GLOBAL.getGroupForProduct = function(prod, carriers, callback){
 
             });
             if(i === prod.carrier.length){
+                if(maxCarrier === null)
+                    callback(0);
                 if(maxCarrier.product_group_id === null)
                     callback(0);
                 else
